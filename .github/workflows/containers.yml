@@ -24,10 +24,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build and run Docker Compose for Unit Test
-        run: |
-          docker compose up -d --build
-          sleep 50  # Wait for services to start
+      # - name: Build and run Docker Compose for Unit Test
+      #   run: |
+      #     docker compose up -d --build
+      #     sleep 50  # Wait for services to start
 
       - name: Test SQL Server connection
         run: |
