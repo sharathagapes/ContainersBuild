@@ -22,9 +22,6 @@ jobs:
           - MONGODB_INITDB_ROOT_PASSWORD=passw0rd!
         ports:
           - "27017:27017"  
-        volumes:
-          - data:/data/db
-          - config:/data/configdb
 
     steps:
       - name: Checkout code
