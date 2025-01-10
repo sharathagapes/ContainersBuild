@@ -13,8 +13,10 @@ jobs:
         run: |
           docker compose up -d --build
           sleep 20  # Wait for services to start
-          nc -zv localhost 1433
-          nc -zv localhost 27017
+      - name: Test connection
+        run: |
+           nc -zv localhost 1433
+           nc -zv localhost 27017
 
       # - name: check connection
       #   run: |
