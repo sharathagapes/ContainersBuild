@@ -13,4 +13,4 @@ services:
     image: mongodb/mongodb-atlas-local:latest    
     ports:
       - "27017:27017"
-   restart: unless-stopped  
+    restart: unless-stopped  
