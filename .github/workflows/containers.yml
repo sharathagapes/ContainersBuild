@@ -23,6 +23,7 @@ jobs:
           docker compose logs
       - name: check logs
         run: |
+          sleep 30
           docker ps -a    
           
 
