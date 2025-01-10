@@ -1,0 +1,16 @@
+services:
+  sqlserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SA_PASSWORD=Your!Strong@Passw0rd
+      - ACCEPT_EULA=Y  
+    ports:
+      - "1433:1433"
+    network_mode: host
+      
+  mongodb-atlas:
+    image: mongodb/mongodb-atlas-local:latest    
+    ports:
+      - "27017:27017"
