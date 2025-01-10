@@ -1,0 +1,35 @@
+name: CI for test
+
+on: [ push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and run Docker Compose for Unit Test
+        run: |
+          docker compose up -d --build
+          sleep 20  # Wait for services to start
+          nc -zv localhost 1433
+          nc -zv localhost 27017
+
+      # - name: check connection
+      #   run: |
+      #     nc -zv localhost 1433
+      #     #Run SQL Initialization Script
+      #     echo "Waiting for SQL Server to start..."
+      #     until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -Q "SELECT 1" &> /dev/null; do
+      #         sleep 5
+      #     done
+      #     echo "SQL Server is up!"
+
+      #     # Run the SQL initialization script
+      #     /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
+
+      # - name: Run Tests (Release)
+      #   run: |
+      #     # Run your tests here, for example:
+      #     dotnet test <YourSolutionName>.sln -c Release
