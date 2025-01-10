@@ -48,8 +48,12 @@ jobs:
       - name: List all containers
         run: |
           echo "Listing all containers..."
-          sleep 30
-          docker ps -a    
+          sleep 15
+          docker ps -a  
+      - name: Run init.sql script
+        run: |
+          echo "Running init.sql script..."
+          sqlcmd -S localhost -U SA -P "${{ vars.MSSQL_SA_PASSWORD }}" -i init.sql    
 
       # Uncomment and modify the following steps as needed for SQL initialization and testing
       # - name: Check SQL Server connection and run initialization script
