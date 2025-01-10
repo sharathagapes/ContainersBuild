@@ -9,7 +9,7 @@ services:
     ports:
       - "1433:1433"
     healthcheck:
-    test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Your!Strong@Passw0rd", "-Q", "SELECT 1"]
+    test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1"]
     interval: 30s
     timeout: 10s
     retries: 5  
@@ -18,4 +18,14 @@ services:
     image: mongodb/mongodb-atlas-local:latest    
     ports:
       - "27017:27017"
-    restart: unless-stopped  
+    restart: unless-stopped 
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=user
+      - MONGODB_INITDB_ROOT_PASSWORD=passw0rd!
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+
+volumes:
+  data:
+  config:
