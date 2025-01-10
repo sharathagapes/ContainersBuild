@@ -21,6 +21,9 @@ jobs:
         run: |
           docker compose ps
           docker compose logs
+      - name: check logs
+        run: |
+          docker ps -a    
           
 
       # - name: check connection
