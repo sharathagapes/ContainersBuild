@@ -1,10 +1,34 @@
 name: CI for test
 
-on: [ push, workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        build:
+          context: .
+          dockerfile: Dockerfile
+        environment:
+          - SA_PASSWORD=Your!Strong@Passw0rd
+          - ACCEPT_EULA=Y  
+        ports:
+          - "1433:1433"  
+
+      mongodb-atlas:
+        image: mongodb/mongodb-atlas-local:latest    
+        ports:
+          - "27017:27017"
+        restart: unless-stopped 
+        environment:
+          - MONGODB_INITDB_ROOT_USERNAME=user
+          - MONGODB_INITDB_ROOT_PASSWORD=passw0rd!
+        volumes:
+          - data:/data/db
+          - config:/data/configdb
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -13,34 +37,43 @@ jobs:
         run: |
           docker compose up -d --build
           sleep 50  # Wait for services to start
-      - name: Test connection
+
+      - name: Test SQL Server connection
         run: |
-           nc -zv localhost 1433
-           nc -zv localhost 27017
-      - name: check logs
+          echo "Testing SQL Server connection..."
+          nc -zv localhost 1433
+
+      - name: Test MongoDB connection
         run: |
+          echo "Testing MongoDB connection..."
+          nc -zv localhost 27017
+
+      - name: Check Docker Compose logs
+        run: |
+          echo "Checking logs for services..."
           docker compose ps
           docker compose logs
-      - name: check logs
+
+      - name: List all containers
         run: |
+          echo "Listing all containers..."
           sleep 30
           docker ps -a    
-          
 
-      # - name: check connection
+      # Uncomment and modify the following steps as needed for SQL initialization and testing
+      # - name: Check SQL Server connection and run initialization script
       #   run: |
-      #     nc -zv localhost 1433
-      #     #Run SQL Initialization Script
       #     echo "Waiting for SQL Server to start..."
       #     until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -Q "SELECT 1" &> /dev/null; do
       #         sleep 5
       #     done
       #     echo "SQL Server is up!"
-
-      #     # Run the SQL initialization script
       #     /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
 
       # - name: Run Tests (Release)
       #   run: |
-      #     # Run your tests here, for example:
       #     dotnet test <YourSolutionName>.sln -c Release
+
+volumes:
+  data:
+  config:
