@@ -7,12 +7,7 @@ services:
       - SA_PASSWORD=Your!Strong@Passw0rd
       - ACCEPT_EULA=Y  
     ports:
-      - "1433:1433"
-    healthcheck:
-    test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Your!Strong@Passw0rd", "-Q", "SELECT 1"]
-    interval: 30s
-    timeout: 10s
-    retries: 5  
+      - "1433:1433"  
       
   mongodb-atlas:
     image: mongodb/mongodb-atlas-local:latest    
