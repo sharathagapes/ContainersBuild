@@ -8,10 +8,8 @@ jobs:
 
     services:
       sqlserver:
-        build:
-          context: .
-          dockerfile: Dockerfile
-        environment:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
           - SA_PASSWORD=Your!Strong@Passw0rd
           - ACCEPT_EULA=Y  
         ports:
@@ -22,7 +20,7 @@ jobs:
         ports:
           - "27017:27017"
         restart: unless-stopped 
-        environment:
+        env:
           - MONGODB_INITDB_ROOT_USERNAME=user
           - MONGODB_INITDB_ROOT_PASSWORD=passw0rd!
         volumes:
@@ -74,6 +72,3 @@ jobs:
       #   run: |
       #     dotnet test <YourSolutionName>.sln -c Release
 
-volumes:
-  data:
-  config:
