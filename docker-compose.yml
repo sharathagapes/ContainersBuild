@@ -9,7 +9,7 @@ services:
     ports:
       - "1433:1433"
     healthcheck:
-    test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1"]
+    test: ["CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Your!Strong@Passw0rd", "-Q", "SELECT 1"]
     interval: 30s
     timeout: 10s
     retries: 5  
