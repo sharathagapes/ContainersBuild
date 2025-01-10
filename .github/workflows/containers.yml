@@ -17,6 +17,11 @@ jobs:
         run: |
            nc -zv localhost 1433
            nc -zv localhost 27017
+      - name: check logs
+        run: |
+          docker-compose ps
+          docker-compose logs
+          
 
       # - name: check connection
       #   run: |
