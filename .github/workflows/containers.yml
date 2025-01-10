@@ -12,7 +12,7 @@ jobs:
       - name: Build and run Docker Compose for Unit Test
         run: |
           docker compose up -d --build
-          sleep 20  # Wait for services to start
+          sleep 50  # Wait for services to start
       - name: Test connection
         run: |
            nc -zv localhost 1433
