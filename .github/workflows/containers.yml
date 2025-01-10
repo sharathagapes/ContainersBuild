@@ -29,15 +29,15 @@ jobs:
       #     docker compose up -d --build
       #     sleep 50  # Wait for services to start
 
-      - name: Test SQL Server connection
-        run: |
-          echo "Testing SQL Server connection..."
-          nc -zv localhost 1433
+      # - name: Test SQL Server connection
+      #   run: |
+      #     echo "Testing SQL Server connection..."
+      #     nc -zv localhost 1433
 
-      - name: Test MongoDB connection
-        run: |
-          echo "Testing MongoDB connection..."
-          nc -zv localhost 27017
+      # - name: Test MongoDB connection
+      #   run: |
+      #     echo "Testing MongoDB connection..."
+      #     nc -zv localhost 27017
 
       - name: Check Docker Compose logs
         run: |
@@ -48,8 +48,15 @@ jobs:
       - name: List all containers
         run: |
           echo "Listing all containers..."
-          sleep 15
+          sleep 5
           docker ps -a  
+
+      - name: Check for sqlcmd in SQL Server container
+        run: |
+          echo "Checking for sqlcmd..."
+          docker exec -it $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
+
+          
       - name: Run init.sql script
         run: |
           echo "Running init.sql script..."
