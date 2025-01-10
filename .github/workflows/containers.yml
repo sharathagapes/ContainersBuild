@@ -10,16 +10,13 @@ jobs:
       sqlserver:
         image: mcr.microsoft.com/mssql/server:2022-latest
         env:
-          - SA_PASSWORD=Your!Strong@Passw0rd
-          - ACCEPT_EULA=Y  
+          - SA_PASSWORD: Your!Strong@Passw0rd
+          - ACCEPT_EULA: Y  
         ports:
           - "1433:1433"  
 
       mongodb-atlas:
         image: mongodb/mongodb-atlas-local:latest    
-        env:
-          - MONGODB_INITDB_ROOT_USERNAME=user
-          - MONGODB_INITDB_ROOT_PASSWORD=passw0rd!
         ports:
           - "27017:27017"  
 
