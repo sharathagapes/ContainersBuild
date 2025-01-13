@@ -51,10 +51,10 @@ jobs:
           sleep 5
           docker ps -a  
 
-      - name: Check for sqlcmd in SQL Server container
-        run: |
-          echo "Checking for sqlcmd..."
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
+     # - name: Check for sqlcmd in SQL Server container
+     #   run: |
+     #     echo "Checking for sqlcmd..."
+     #     docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
 
           
       - name: Run init.sql script
