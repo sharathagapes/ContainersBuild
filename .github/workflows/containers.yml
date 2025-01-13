@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "Checking for sqlcmd..."
           #docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT 1' | /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '${{ vars.MSSQL_SA_PASSWORD }}'"
+          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT 1' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '${{ vars.MSSQL_SA_PASSWORD }}'"
           
       - name: Run init.sql script
         run: |
