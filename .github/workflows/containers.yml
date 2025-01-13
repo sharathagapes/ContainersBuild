@@ -60,8 +60,8 @@ jobs:
       - name: Run init.sql script
         run: |
           echo "Running init.sql script..."
-          docker cp init.sql $(docker ps -q --filter "name=sqlserver"):/usr/src/app/
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -i /usr/src/app/init.sql"
+          docker cp init.sql $(docker ps -q --filter "name=sqlserver"):/opt/
+          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -i /opt/init.sql"
          
       # Uncomment and modify the following steps as needed for SQL initialization and testing
       # - name: Check SQL Server connection and run initialization script
