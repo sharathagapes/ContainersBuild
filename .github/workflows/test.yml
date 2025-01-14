@@ -1,14 +1,16 @@
 name: Trigger CI for Test
 
-on: # Allows manual triggering of this workflow
-  push:              # Triggers on push to any branch
+on:
+  push:
     branches:
       - main
-  workflow_dispatch: # Allows manual triggering of this workflow    
+  workflow_dispatch:
 
 jobs:
   call-ci-for-test:
-    name: Call CI for Test Workflow
-    uses: ./.github/workflows/containers.yml
-    with:
-      MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CI for Test Workflow
+        uses: ./.github/workflows/containers.yml
+        with:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
