@@ -5,7 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
-        
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
         ports:
           - "1433:1433"
     env:
-      MSSQL_SA_PASSWORD: ${{ inputs.MSSQL_SA_PASSWORD }}
+      MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
       METARISK_CLOUD_DB: "Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=${{ secrets.MSSQL_SA_PASSWORD }};Encrypt=False;TrustServerCertificate=True;"        
 
       # mongodb-atlas:
