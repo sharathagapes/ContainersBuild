@@ -1,6 +1,6 @@
 name: CI for test
 
-on: [workfow_call]
+on: [workflow_call]
   inputs:
       MSSQL_SA_PASSWORD:
         required: true
