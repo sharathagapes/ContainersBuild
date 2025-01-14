@@ -8,9 +8,6 @@ on:
 
 jobs:
   call-ci-for-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger CI for Test Workflow
-        uses: ./.github/workflows/containers.yml
-        with:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+    uses: ./.github/workflows/containers.yml # Reference the reusable workflow
+    with:
+      MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
