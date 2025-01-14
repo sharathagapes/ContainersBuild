@@ -75,7 +75,7 @@ jobs:
           #/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
           #checking connection to Database
           METARISK_CLOUD_DB="Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=Your!Strong@Passw0rd;Encrypt=False;TrustServerCertificate=True;"
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -d MetaRiskCloud -Q 'SELECT 1'"
+          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C -d MetaRiskCloud -Q 'SELECT 1'"
 
 
       # - name: Run Tests (Release)
