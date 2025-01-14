@@ -70,8 +70,9 @@ jobs:
           until docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'Your!Strong@Passw0rd' -C -Q 'USE MetaRiskCloud; GO SELECT * FROM sys.Tables GO' &> /dev/null"; do
               sleep 5
           done
-          echo "SQL Server is up!"
-         # /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
+          echo "SQL Server is up! Displaying tables"
+          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'USE MetaRiskCloud; GO SELECT * FROM sys.Tables GO' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C"
+          #/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
 
       # - name: Run Tests (Release)
       #   run: |
