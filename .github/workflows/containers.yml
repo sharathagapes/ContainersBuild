@@ -39,29 +39,29 @@ jobs:
       #     echo "Testing MongoDB connection..."
       #     nc -zv localhost 27017
 
-      - name: Check Docker Compose logs
-        run: |
-          echo "Checking logs for services..."
-          docker compose ps
-          docker compose logs
+      # - name: Check Docker Compose logs
+      #   run: |
+      #     echo "Checking logs for services..."
+      #     docker compose ps
+      #     docker compose logs
 
-      - name: List all containers
-        run: |
-          echo "Listing all containers..."
-          sleep 60
-          docker ps -a  
+      # - name: List all containers
+      #   run: |
+      #     echo "Listing all containers..."
+      #     sleep 60
+      #     docker ps -a  
 
-      - name: Check for sqlcmd in SQL Server container
-        run: |
-          echo "Checking for sqlcmd..."
-          #docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT 1' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C"
+      # - name: Check for sqlcmd in SQL Server container
+      #   run: |
+      #     echo "Checking for sqlcmd..."
+      #     #docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "ls /opt/mssql-tools/bin/; find / -name sqlcmd"
+      #     docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT 1' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C"
           
-      - name: Run init.sql script
-        run: |
-          echo "Running init.sql script..."
-          docker cp init.sql $(docker ps -q --filter "name=sqlserver"):/opt/
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C -i /opt/init.sql"
+      # - name: Run init.sql script
+      #   run: |
+      #     echo "Running init.sql script..."
+      #     docker cp init.sql $(docker ps -q --filter "name=sqlserver"):/opt/
+      #     docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C -i /opt/init.sql"
          
       # Uncomment and modify the following steps as needed for SQL initialization and testing
       - name: Check SQL Server connection and run initialization script
