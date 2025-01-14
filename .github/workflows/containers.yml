@@ -1,8 +1,10 @@
 name: CI for test
 
 on: [workfow_call]
-  inputs: 
-    MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+  inputs:
+      MSSQL_SA_PASSWORD:
+        required: true
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest
