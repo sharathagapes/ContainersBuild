@@ -9,6 +9,6 @@ on: # Allows manual triggering of this workflow
 jobs:
   call-ci-for-test:
     name: Call CI for Test Workflow
-    uses: ./.github/workflows/ci-for-test.yml
+    uses: ./.github/workflows/containers.yml
     with:
       MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
