@@ -71,7 +71,7 @@ jobs:
               sleep 5
           done
           echo "SQL Server is up! Displaying tables"
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT name FROM sys.Tables;' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C"
+          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT name FROM sys.databases;' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Your!Strong@Passw0rd' -C"
           #/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
 
       # - name: Run Tests (Release)
