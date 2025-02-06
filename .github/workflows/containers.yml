@@ -11,21 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-          ACCEPT_EULA: Y  
-        ports:
-          - "1433:1433"
-    env:
-      MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-      METARISK_CLOUD_DB: "Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=${{ secrets.MSSQL_SA_PASSWORD }};Encrypt=False;TrustServerCertificate=True;"        
+    #   sqlserver:
+    #     image: mcr.microsoft.com/mssql/server:2022-latest
+    #     env:
+    #       MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+    #       ACCEPT_EULA: Y  
+    #     ports:
+    #       - "1433:1433"
+    # env:
+    #   MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+    #   METARISK_CLOUD_DB: "Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=${{ secrets.MSSQL_SA_PASSWORD }};Encrypt=False;TrustServerCertificate=True;"        
 
-      # mongodb-atlas:
-      #   image: mongodb/mongodb-atlas-local:latest    
-      #   ports:
-      #     - "27017:27017"  
+      mongodb-atlas:
+        image: mongodb/mongodb-atlas-local:latest    
+        ports:
+          - "27017:27017"  
+        options: >
+          --bind_ip_all
 
     steps:
       - name: Checkout code
@@ -70,29 +72,29 @@ jobs:
           docker cp init.sql $(docker ps -q --filter "name=sqlserver"):/opt/
           docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C -i /opt/init.sql"
          
-      # Uncomment and modify the following steps as needed for SQL initialization and testing
-      - name: Check SQL Server connection and run initialization script
-        run: |
-          echo "Waiting for SQL Server to start..."
-          until docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '$MSSQL_SA_PASSWORD' -C -Q 'SELECT 1' &> /dev/null"; do
-              sleep 5
-          done
-          echo "SQL Server is up! Displaying tables"
-          docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT name FROM sys.databases;' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C"
-          #/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
-          #checking connection to Database
-          METARISK_CLOUD_DB="Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=$MSSQL_SA_PASSWORD;Encrypt=False;TrustServerCertificate=True;"
-          #docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C -d MetaRiskCloud -Q 'SELECT 1'"
-          # Checking connection to Database
-          echo "Checking connection to MetaRiskCloud database..."
-          if docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C -d MetaRiskCloud -Q 'SELECT 1' &> /dev/null"; then
-              echo "Connection to MetaRiskCloud successful!"
-          else
-              echo "Failed to connect to MetaRiskCloud."
-              exit 1
-          fi
-
-      # - name: Run Tests (Release)
+      # # Uncomment and modify the following steps as needed for SQL initialization and testing
+      # - name: Check SQL Server connection and run initialization script
       #   run: |
-      #     dotnet test <YourSolutionName>.sln -c Release
+      #     echo "Waiting for SQL Server to start..."
+      #     until docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '$MSSQL_SA_PASSWORD' -C -Q 'SELECT 1' &> /dev/null"; do
+      #         sleep 5
+      #     done
+      #     echo "SQL Server is up! Displaying tables"
+      #     docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "echo 'SELECT name FROM sys.databases;' | /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C"
+      #     #/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.MSSQL_SA_PASSWORD }}" -d master -i /usr/src/app/init.sql -C
+      #     #checking connection to Database
+      #     METARISK_CLOUD_DB="Server=localhost;Database=MetaRiskCloud;User Id=sa;Password=$MSSQL_SA_PASSWORD;Encrypt=False;TrustServerCertificate=True;"
+      #     #docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C -d MetaRiskCloud -Q 'SELECT 1'"
+      #     # Checking connection to Database
+      #     echo "Checking connection to MetaRiskCloud database..."
+      #     if docker exec $(docker ps -q --filter "name=sqlserver") /bin/bash -c "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$MSSQL_SA_PASSWORD' -C -d MetaRiskCloud -Q 'SELECT 1' &> /dev/null"; then
+      #         echo "Connection to MetaRiskCloud successful!"
+      #     else
+      #         echo "Failed to connect to MetaRiskCloud."
+      #         exit 1
+      #     fi
+
+      # # - name: Run Tests (Release)
+      # #   run: |
+      # #     dotnet test <YourSolutionName>.sln -c Release
 
