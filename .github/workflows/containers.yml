@@ -26,8 +26,8 @@ jobs:
         image: mongodb/mongodb-atlas-local:latest    
         ports:
           - "27017:27017"  
-        env:
-          MONGODB_BIND_IP_ALL: "true"
+        # env:
+        #   MONGODB_BIND_IP_ALL: "true"
 
     steps:
       - name: Checkout code
